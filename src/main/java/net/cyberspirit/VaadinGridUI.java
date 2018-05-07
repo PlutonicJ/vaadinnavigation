@@ -10,6 +10,8 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import net.cyberspirit.navigation.NavigationBuilder;
+import net.cyberspirit.navigation.NavigationElement;
 
 import javax.inject.Inject;
 import java.util.Locale;
@@ -35,7 +37,17 @@ public class VaadinGridUI extends UI {
         Navigator navigator = new Navigator(this, mainLayout);
         navigator.addProvider(viewProvider);
 
-        HorizontalLayout inhalt = new HorizontalLayout(new Button("test", e -> navigator.navigateTo("test")), new Button("hallo", e -> navigator.navigateTo("hallo")), mainLayout);
+        NavigationElement navigationElement = new NavigationBuilder()
+                .expandable("testMenü")
+                    .internalLink("test", "test")
+                    .expandable("test1234")
+                        .internalLink("test5678", "test")
+                    .endExpandable()
+                    .internalLink("hallo", "hallo")
+                .endExpandable()
+            .build();
+
+        HorizontalLayout inhalt = new HorizontalLayout(navigationElement, mainLayout);
         inhalt.setMargin(new MarginInfo(false, false, true, false));
         setContent(inhalt);
 
